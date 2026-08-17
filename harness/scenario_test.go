@@ -20,7 +20,7 @@ func buildAll(t *testing.T) map[string]*Document {
 			t.Fatalf("%s: %v", scenario.Slug, err)
 		}
 		if doc.Scenario != scenario.Slug {
-			t.Errorf("%s built a document labelled %q", scenario.Slug, doc.Scenario)
+			t.Errorf("%s built a document labeled %q", scenario.Slug, doc.Scenario)
 		}
 		out[scenario.Slug] = doc
 	}
