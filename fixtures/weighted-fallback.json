@@ -1,0 +1,136 @@
+{
+  "schema": "langdag-lab/v1",
+  "langdag_version": "v0.10.0",
+  "scenario": "weighted-fallback",
+  "title": "Weighted policy, preferred route declines",
+  "summary": "A policy that sends most traffic to one deployment and keeps a second in reserve. The preferred route answers the first turn, then declines the second, and the standby answers it. Each answer carries the name of the deployment that served it; the declined attempt is in the attempt log rather than the tree, because a call that returned nothing produces no node.",
+  "policy": [
+    {
+      "route": "anthropic",
+      "weight": 80
+    },
+    {
+      "route": "backup",
+      "weight": 20
+    }
+  ],
+  "attempts": [
+    {
+      "route": "anthropic",
+      "weight": 80,
+      "ok": true
+    },
+    {
+      "route": "anthropic",
+      "weight": 80,
+      "ok": false,
+      "error": "529 overloaded: upstream declined the request"
+    },
+    {
+      "route": "backup",
+      "weight": 20,
+      "ok": true
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n0",
+      "root_id": "n0",
+      "sequence": 0,
+      "node_type": "user",
+      "content": "Where should I start optimizing a service that is slow under load?",
+      "model": "claude-haiku-4-5",
+      "status": "completed",
+      "title": "Where should I start optimizing a service that ...",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n1",
+      "parent_id": "n0",
+      "root_id": "n0",
+      "sequence": 1,
+      "node_type": "assistant",
+      "content": "Start with the read path. A cache in front of the slowest query buys the most headroom for the least risk, because a stale read is recoverable and a stale write is not.",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 88,
+      "tokens_out": 36,
+      "stop_reason": "end_turn",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 88,
+          "output_tokens": 36
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "n2",
+      "parent_id": "n1",
+      "root_id": "n0",
+      "sequence": 2,
+      "node_type": "user",
+      "content": "And the write path?",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n3",
+      "parent_id": "n2",
+      "root_id": "n0",
+      "sequence": 3,
+      "node_type": "assistant",
+      "content": "For the write path, batch on the client and make the handler idempotent before you touch the database. Batching without idempotency turns one retry into a duplicate row.",
+      "provider": "backup",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 144,
+      "tokens_out": 33,
+      "stop_reason": "end_turn",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 144,
+          "output_tokens": 33
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    }
+  ]
+}

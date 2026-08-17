@@ -1,0 +1,10 @@
+# The built binary, if anyone runs `go build` rather than `go run .`.
+/langdag-lab
+
+# Coverage profiles. test.sh writes its own to a temp file and removes it; this
+# catches the ones written by hand during development.
+*.out
+
+# fixtures/ is NOT ignored. The captured trees are this repository's output, not
+# a build artifact — they are what a consumer reads, and they are only
+# meaningful with the provenance recorded beside them.

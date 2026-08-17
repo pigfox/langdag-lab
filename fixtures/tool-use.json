@@ -1,0 +1,108 @@
+{
+  "schema": "langdag-lab/v1",
+  "langdag_version": "v0.10.0",
+  "scenario": "tool-use",
+  "title": "Tool round trip",
+  "summary": "The model asks for a tool, the caller answers, the model uses the answer. langdag stores the request as content blocks and indexes the tool id; running the tool is the caller's job, which is why this is four nodes and the second user turn holds a tool result rather than typed text.",
+  "nodes": [
+    {
+      "id": "n0",
+      "root_id": "n0",
+      "sequence": 0,
+      "node_type": "user",
+      "content": "What is the current UTC offset for Tokyo?",
+      "model": "claude-haiku-4-5",
+      "status": "completed",
+      "title": "What is the current UTC offset for Tokyo?",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n1",
+      "parent_id": "n0",
+      "root_id": "n0",
+      "sequence": 1,
+      "node_type": "assistant",
+      "content": "[{\"type\":\"tool_use\",\"id\":\"toolu_tokyo_1\",\"name\":\"lookup_timezone\",\"input\":{\"city\":\"Tokyo\"}}]",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 412,
+      "tokens_out": 57,
+      "stop_reason": "tool_use",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 412,
+          "output_tokens": 57
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "n2",
+      "parent_id": "n1",
+      "root_id": "n0",
+      "sequence": 2,
+      "node_type": "user",
+      "content": "[{\"type\":\"tool_result\",\"tool_use_id\":\"toolu_tokyo_1\",\"content\":\"Asia/Tokyo, UTC+09:00, no daylight saving\"}]",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n3",
+      "parent_id": "n2",
+      "root_id": "n0",
+      "sequence": 3,
+      "node_type": "assistant",
+      "content": "Tokyo is on Asia/Tokyo, which is UTC+09:00 all year — Japan does not observe daylight saving, so the offset never shifts.",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 498,
+      "tokens_out": 34,
+      "stop_reason": "end_turn",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 498,
+          "output_tokens": 34
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    }
+  ]
+}

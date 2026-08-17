@@ -1,0 +1,157 @@
+{
+  "schema": "langdag-lab/v1",
+  "langdag_version": "v0.10.0",
+  "scenario": "branch-compare",
+  "title": "Two continuations of one node",
+  "summary": "One assistant answer, continued twice with the same follow-up and answered differently each time. Both continuations keep the whole path above them, so the two lines of reasoning share a history and diverge only below the node they left from.",
+  "nodes": [
+    {
+      "id": "n0",
+      "root_id": "n0",
+      "sequence": 0,
+      "node_type": "user",
+      "content": "I need to rate limit an HTTP API. What shape should it be?",
+      "model": "claude-haiku-4-5",
+      "status": "completed",
+      "title": "I need to rate limit an HTTP API. What shape sh...",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n1",
+      "parent_id": "n0",
+      "root_id": "n0",
+      "sequence": 1,
+      "node_type": "assistant",
+      "content": "Two shapes fit: a token bucket, which allows a burst up to its capacity and refills at a steady rate, or a leaky bucket, which drains at a fixed rate and shapes the burst away entirely.",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 96,
+      "tokens_out": 41,
+      "stop_reason": "end_turn",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 96,
+          "output_tokens": 41
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "n2",
+      "parent_id": "n1",
+      "root_id": "n0",
+      "sequence": 2,
+      "node_type": "user",
+      "content": "Go with the token bucket. What should I watch out for?",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n3",
+      "parent_id": "n2",
+      "root_id": "n0",
+      "sequence": 3,
+      "node_type": "assistant",
+      "content": "Token bucket. Size the capacity to the burst you are willing to absorb and the refill rate to the sustained limit; a client that has been quiet can spend its savings immediately, which is usually what an API caller expects.",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 151,
+      "tokens_out": 48,
+      "stop_reason": "end_turn",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 151,
+          "output_tokens": 48
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "n4",
+      "parent_id": "n1",
+      "root_id": "n0",
+      "sequence": 2,
+      "node_type": "user",
+      "content": "Go with the token bucket. What should I watch out for?",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "n5",
+      "parent_id": "n4",
+      "root_id": "n0",
+      "sequence": 3,
+      "node_type": "assistant",
+      "content": "Token bucket, but keep one bucket per client rather than one for the process, and evict an idle bucket on a timer. A single shared bucket makes one noisy caller everyone else's rate limit.",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "tokens_in": 151,
+      "tokens_out": 43,
+      "stop_reason": "end_turn",
+      "status": "completed",
+      "created_at": "0001-01-01T00:00:00Z",
+      "metadata": {
+        "model_resolution": {
+          "canonical_model_id": "anthropic/claude-haiku-4-5",
+          "offering_id": "anthropic-direct:claude-haiku-4-5",
+          "deployment_id": "anthropic-direct",
+          "provider_id": "anthropic",
+          "api_protocol_id": "anthropic-messages",
+          "native_model_id": "claude-haiku-4-5"
+        },
+        "normalized_usage": {
+          "input_tokens": 151,
+          "output_tokens": 43
+        },
+        "pricing_snapshot": {
+          "status": "known",
+          "currency": "USD",
+          "effective_at": "2026-07-15T23:38:42.287802558Z",
+          "source": "providers",
+          "rates_per_1m": {
+            "input_tokens": 1,
+            "output_tokens": 5
+          }
+        }
+      }
+    }
+  ]
+}
